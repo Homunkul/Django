@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <a href="/">Back</a>
+    <h2>{{article.name}}</h2>
+    <strong>{{article.author.username}}</strong> - <i>{{article.Creation_time}}</i>
+    <p>{{article.content}}</p>
+   <!-- <p><p>
+        tags:
+        {% for tag in article.tags.all %}
+        {{tag.name}}
+        "/n"
+        {% endfor %}
+    </p></p>--!>
+    <p>
+        {% for tag in article.tags.all %}
+    <p>{{tag.name}}</p>
+        {% endfor %}
+    </p>
+    <br>
+    <p>
+        {% for commentary in article.commentaries.all %}
+        <div><p>{{forloop.counter}}:{{commentary.content}}</p></div>
+        {% endfor %}
+    </p>
+    <br>
+    <h3>Commentaries</h3>
+    <p>
+        {% for commentary in article.commentaries.all %}
+        <div><p>{{forloop.counter}}:{{commentary.content}}</p><strong>{{commentary.author.username}}</strong> - <i>{{commentary.Creation_time}}</i></div>
+        {% endfor %}
+    </p>
+</body>
+</html>

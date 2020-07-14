@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    Articles overview:
+    <ul>
+        {% for article in articles %}
+        <li>
+            <a href="/article/{{article.id}}">{{article.name}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
