@@ -11,7 +11,7 @@ class Article(models.Model):
     content = models.TextField()
     author = models.ForeignKey(User, on_delete= models.CASCADE, related_name='articles')
     tags = models.ManyToManyField('Tag', related_name='articles')
-    Creation_time = models.DateTimeField(auto_now_add=True, editable=False)
+    creation_time = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
         return self.name
@@ -28,7 +28,7 @@ class Commentary(models.Model):
     content = models.TextField()
     articles = models.ForeignKey(Article, related_name='commentaries', on_delete=models.CASCADE)
     author = models.ForeignKey(User, related_name='commentaries', on_delete=models.CASCADE)
-    Creation_time = models.DateTimeField(auto_now_add=True, editable=False)
+    creation_time = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
         if len(self.content)<30:
