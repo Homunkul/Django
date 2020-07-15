@@ -24,14 +24,35 @@
     <br>
     <p>
         {% for commentary in article.commentaries.all %}
-        <div><p>{{forloop.counter}}:{{commentary.content}}</p></div>
+        <div>
+            <p>
+                {{forloop.counter}}:{{commentary.content}}
+            </p>
+        </div>
         {% endfor %}
     </p>
     <br>
     <h3>Commentaries</h3>
+    {% if request.user.is_authenticated %}
+    <form method="POST">
+        {{form.as_p}}
+        {%csrf_token%}
+        <button type="submit">Send</button>
+    </form>
+    {% endif %}
     <p>
         {% for commentary in article.commentaries.all %}
-        <div><p>{{forloop.counter}}:{{commentary.content}}</p><strong>{{commentary.author.username}}</strong> - <i>{{commentary.Creation_time}}</i></div>
+        <div>
+            <p>
+                {{forloop.counter}}:{{commentary.content}}
+            </p>
+            <strong>
+                {{commentary.author.username}}
+            </strong>
+            <i>
+                {{commentary.creation_time}}
+            </i>
+        </div>
         {% endfor %}
     </p>
 </body>

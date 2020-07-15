@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Article, Tag, Commentary
-from rest_framework import viewsets,filters
+from rest_framework import viewsets, filters
 from .serializevs import ArticleSerializer, TagSerializer, CommentarySerializer
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
+from .forms import CommentaryFrom
 
 # Create your views here.
 
@@ -14,7 +15,17 @@ def articles_overview(request):
 
 def get_article(request, article_id):
     article = Article.objects.get(pk=article_id)
-    return render(request, 'article.html', {'article': article})
+    if request.method != 'POST':
+        form = CommentaryFrom()
+    else:
+        form = CommentaryFrom(data=request.POST)
+        if form.is_valid():
+            new_Commentary = form.save(commit=False)
+            new_Commentary.author = request.user
+            new_Commentary.articles = article
+            new_Commentary.save()
+            return redirect('article', article_id)
+    return render(request, 'article.html', {'article': article, 'form': form})
 
 class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all()
