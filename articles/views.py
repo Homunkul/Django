@@ -6,12 +6,13 @@ from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .forms import CommentaryFrom
 
-# Create your views here.
-
 def articles_overview(request):
     articles = Article.objects.all()
-    context = {'articles': articles}
+    context = {
+        'articles': articles
+    }
     return render(request, 'articles_overview.html', context)
+
 
 def get_article(request, article_id):
     article = Article.objects.get(pk=article_id)
@@ -20,12 +21,18 @@ def get_article(request, article_id):
     else:
         form = CommentaryFrom(data=request.POST)
         if form.is_valid():
-            new_Commentary = form.save(commit=False)
-            new_Commentary.author = request.user
-            new_Commentary.articles = article
-            new_Commentary.save()
+            new_сommentary = form.save(commit=False)
+            new_сommentary.author = request.user
+            new_сommentary.articles = article
+            new_сommentary.save()
             return redirect('article', article_id)
     return render(request, 'article.html', {'article': article, 'form': form})
+
+
+# def set_article(reqest, title,content):
+#     if reqest.metod == 'POST':
+#         article = Article.save()
+
 
 class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all()
@@ -34,6 +41,7 @@ class ArticleViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     search_fields = ['name', 'description', 'content', 'author__id', 'tags__name', 'commentaries__content']
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
@@ -47,5 +55,3 @@ class CommentaryViewSet(viewsets.ModelViewSet):
     serializer_class = CommentarySerializer
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
-
-

@@ -27,7 +27,7 @@ class ArticleModelTest(TestCase):
         articles = Article.objects.filter(tags__name='tag-2')
         self.assertIn(self.article, articles)
 
-        def tearDown(self):
+        # def tearDown(self):
 
 
 class ArticleViewTest(TestCase):
